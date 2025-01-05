@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
-class TasksScreen extends StatelessWidget {
+import '../widgets/tasks_list.dart';
+import 'add_task_screen.dart';
+
+class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
 
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +35,17 @@ class TasksScreen extends StatelessWidget {
             shape: CircleBorder(),
             backgroundColor: Colors.lightBlueAccent,
             onPressed: () {
-              print('Hello');
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: AddTaskScreen(),
+                  ),
+                ),
+              );
             },
             child: Icon(
               Icons.edit,
@@ -79,7 +97,7 @@ class TasksScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              height: 300,
+              padding: EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -87,6 +105,7 @@ class TasksScreen extends StatelessWidget {
                   topRight: Radius.circular(20),
                 ),
               ),
+              child: TasksList(),
             ),
           ),
         ],
