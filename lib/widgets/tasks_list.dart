@@ -18,6 +18,13 @@ class _TasksListState extends State<TasksList> {
     Task(name: 'pay orange'),
     Task(name: 'Pay gamburger'),
   ];
+
+  toggleCheckedState(bool? checkBoxState, index) {
+    setState(() {
+      tasks[index].toggleDone();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -27,6 +34,9 @@ class _TasksListState extends State<TasksList> {
               title: TaskTitle(
             isChecked: tasks[index].isDone,
             taskTitle: tasks[index].name,
+            checkboxCallback: (checkBoxState) {
+              toggleCheckedState(checkBoxState, index);
+            },
           ));
         });
   }
