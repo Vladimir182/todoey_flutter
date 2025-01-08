@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/task.dart';
 import '../widgets/tasks_list.dart';
 import 'add_task_screen.dart';
 
@@ -11,6 +12,25 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
+  List<Task> tasks = [
+    Task(name: 'Pay milk'),
+    Task(name: 'pay orange'),
+    Task(name: 'Pay gamburger'),
+  ];
+
+  void getControllerAddListText(controller) {
+    String taskText = controller.text.trim();
+
+    if (taskText.isNotEmpty) {
+      setState(() {
+        tasks.add(Task(name: taskText));
+      });
+      // controller.clear();
+      Navigator.pop(context);
+    }
+    print(taskText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +48,8 @@ class _TasksScreenState extends State<TasksScreen> {
       // ),
 
       floatingActionButton: SizedBox(
-        width: 80,
-        height: 80,
+        width: 70,
+        height: 70,
         child: FittedBox(
           child: FloatingActionButton(
             shape: CircleBorder(),
@@ -42,7 +62,9 @@ class _TasksScreenState extends State<TasksScreen> {
                   child: Container(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: AddTaskScreen(),
+                    child: AddTaskScreen(
+                      controllerAddListText: getControllerAddListText,
+                    ),
                   ),
                 ),
               );
@@ -83,7 +105,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '12 Tasks',
+                  '${tasks.length} Tasks',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -105,7 +127,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: TasksList(),
+              child: TasksList(taskList: tasks),
             ),
           ),
         ],
