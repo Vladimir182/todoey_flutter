@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter/models/task_provider.dart';
 
 class AddTaskScreen extends StatelessWidget {
   AddTaskScreen({
     super.key,
-    required this.controllerAddListText,
   });
-
-  final Function(TextEditingController) controllerAddListText;
 
   final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final addTask = context.read<TaskProvider>().addTask;
     return Container(
       padding: EdgeInsets.all(40),
       child: Column(
@@ -48,7 +48,13 @@ class AddTaskScreen extends StatelessWidget {
             height: 20,
           ),
           ElevatedButton(
-            onPressed: () => controllerAddListText(controller),
+            onPressed: () {
+              if (controller.text.isNotEmpty) {
+                addTask(controller.text);
+                Navigator.pop(context);
+              }
+              controller.clear();
+            },
             style: ElevatedButton.styleFrom(
               minimumSize: Size(double.infinity, 60),
               shape: BeveledRectangleBorder(),
