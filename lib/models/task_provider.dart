@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
 import 'package:todoey_flutter/models/task.dart';
@@ -9,11 +11,13 @@ class TaskProvider extends ChangeNotifier {
     Task(name: 'Pay gamburger'),
     Task(name: 'Pay gamburger'),
   ];
-
-  List<Task> get tasks => _tasks;
+  //UnmodifiableListView робить список незмінним (immutable) для зовнішнього доступу
+  // List<Task> get tasks => _tasks;
+  UnmodifiableListView<Task> get tasks => UnmodifiableListView(_tasks);
 
   void addTask(String name) {
-    _tasks.add(Task(name: name));
+    final newTask = Task(name: name);
+    _tasks.add(newTask);
     notifyListeners();
   }
 

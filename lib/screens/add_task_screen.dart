@@ -49,11 +49,11 @@ class AddTaskScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              if (controller.text.isNotEmpty) {
-                addTask(controller.text);
+              if (controller.text.trim().isNotEmpty) {
+                addTask(controller.text.trim());
+                controller.clear();
                 Navigator.pop(context);
               }
-              controller.clear();
             },
             style: ElevatedButton.styleFrom(
               minimumSize: Size(double.infinity, 60),

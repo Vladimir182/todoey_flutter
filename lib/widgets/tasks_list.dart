@@ -11,7 +11,7 @@ class TasksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final taskList = context.read<TaskProvider>().tasks;
+    final taskList = context.watch<TaskProvider>().tasks;
     final toggleCheckBox = context.read<TaskProvider>().toggleCheckBox;
     return ListView.builder(
         itemCount: taskList.length,
