@@ -21,8 +21,13 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleCheckBox(int index) {
+  void updateTask(int index) {
     _tasks[index].toggleDone();
+    notifyListeners();
+  }
+
+  void deleteTask(int index) {
+    _tasks.removeAt(index);
     notifyListeners();
   }
 }
