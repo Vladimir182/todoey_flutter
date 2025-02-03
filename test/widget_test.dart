@@ -37,7 +37,7 @@ void main() {
       );
 
       await tester.tap(find.byType(FloatingActionButton));
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(); // Чекаємо завершення анімації
 
       expect(find.text('Add Task'), findsOneWidget);
       expect(find.byType(TextField), findsOneWidget);
@@ -53,16 +53,25 @@ void main() {
         ChangeNotifierProvider<TaskProvider>.value(
           value: taskProvider,
           child: MaterialApp(
-            home: AddTaskScreen(),
+            home:
+                TasksScreen(), // Використовуємо TasksScreen як батьківський віджет
           ),
         ),
       );
 
+      // Відкриваємо AddTaskScreen
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pumpAndSettle(); // Чекаємо завершення анімації
+
+      // Вводимо текст у TextField
       await tester.enterText(find.byType(TextField), 'New Task');
       await tester.tap(find.text('Add'));
-      await tester.pump();
+      await tester
+          .pumpAndSettle(); // Чекаємо завершення анімації та закриття модального вікна
 
-      expect(taskProvider.tasks.length, 5);
+      // Перевіряємо, що завдання додалося
+      expect(taskProvider.tasks.length,
+          5); // Спочатку 4 завдання, після додавання - 5
       expect(taskProvider.tasks.last.name, 'New Task');
     });
   });
@@ -104,7 +113,8 @@ void main() {
       await tester.tap(find.byType(Checkbox).first);
       await tester.pump();
 
-      expect(taskProvider.tasks[0].isDone, true);
+      expect(taskProvider.tasks[0].isDone,
+          true); // Перевіряємо, що завдання позначено як виконане
     });
 
     testWidgets('TasksList should delete a task on long press',
@@ -122,9 +132,14 @@ void main() {
         ),
       );
 
+      // Спочатку перевіряємо, що завдань 4
+      expect(taskProvider.tasks.length, 4);
+
+      // Виконуємо довге натискання на перше завдання
       await tester.longPress(find.text('Pay milk').first);
       await tester.pump();
 
+      // Перевіряємо, що завдань стало 3
       expect(taskProvider.tasks.length, 3);
     });
   });
@@ -171,7 +186,7 @@ void main() {
       await tester.tap(find.byType(Checkbox));
       await tester.pump();
 
-      expect(isChecked, true);
+      expect(isChecked, true); // Перевіряємо, що стан чекбокса змінився
     });
   });
 }
