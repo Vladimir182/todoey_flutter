@@ -3,10 +3,10 @@ name: Flutter CI
 on:
   push:
     branches:
-      - main  # Вкажіть гілку, для якої ви хочете запускати CI
+      - main 
   pull_request:
     branches:
-      - main  # Вкажіть гілку, для якої ви хочете запускати CI
+      - main  
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
